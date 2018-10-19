@@ -1,5 +1,7 @@
 #include <iostream>
 #include <fstream>
+#include "include/data_set.hpp"
+#include "include/iris.hpp"
 
 // number of folds for cross-validation
 #define NUM_FOLD 10
@@ -15,25 +17,25 @@ int main(int argc, char** argv)
 
     // create data object and init with file stream
     std::ifstream ifs(argv[1]);
-    DataSet data(ifs);
+    DataSet<Iris> data(ifs);
     ifs.close();
 
     // shuffle the data set
-    data.shuffle()
+    data.shuffle();
 
     // train the classifier using cross-validation
     // and collect all the validation result
     double error_sum = 0;
     NeuroNet classifier;
+    auto train_data, vali_data;
     for(int i=0; i<NUM_FOLD; i++)
     {
-        //TODO: how to pass train data
         // training 
-        train_data = data.get_train:
+        train_data = data.get_train_data(i, NUM_FOLD):
         classifier.train(train_data);
 
-        //TODO: how to pass vali data
         // validation and collect result
+        vali_data = data.get_vali_data(i, NUM_FOLD);
         error_sum += classifier.validate(vali_data);
     }
 
