@@ -1,8 +1,7 @@
-#include <iostream>
 #include <fstream>
 #include "include/data_set.hpp"
-#include "include/iris.hpp"
 #include "include/neuro_net.hpp"
+#include "include/iris.hpp"
 
 // number of folds for cross-validation
 #define NUM_FOLD 10
@@ -39,29 +38,32 @@ int main(int argc, char** argv)
       , bias
     > classifier;
 
-    // train the classifier using cross-validation
-    // and collect all the validation result
-    double error_rate_sum = 0;
+    // train the classifier
+    double error_rate;
     std::vector<Iris> train_data, vali_data;
-    for(int i=0; i<NUM_FOLD; i++)
-    {
-        // training 
-        std::cout << "training..." << std::endl;
-        train_data = data.get_train_data(i, NUM_FOLD);
-        classifier.train(train_data);
-        std::cout << "training finished" << std::endl;
 
-        // validation and collect result
-        std::cout << "validating..." << std::endl;
-        vali_data = data.get_vali_data(i, NUM_FOLD);
-        error_rate_sum += classifier.validate(vali_data);
-        std::cout << "validating finished" << std::endl;
-    }
+    // training 
+    std::cout << "training..." << std::endl;
+    train_data = data.get_train_data(0, NUM_FOLD);
+    classifier.train(train_data);
+    std::cout << "training finished" << std::endl;
+
+    /*
+    // validation and collect result
+    std::cout << "validating..." << std::endl;
+    vali_data = data.get_vali_data(0, NUM_FOLD);
+    error_rate = classifier.validate(vali_data);
+    std::cout << "validating finished" << std::endl;
+    */
+    // validation and collect result
+    std::cout << "validating..." << std::endl;
+    error_rate = classifier.validate(train_data);
+    std::cout << "validating finished" << std::endl;
 
     // output the result
-    double avg_error_rate = error_rate_sum/NUM_FOLD;
-    double pos_predict_rate = 1-avg_error_rate;
+    double pos_predict_rate = 1-error_rate;
     std::cout << "correctness: " << pos_predict_rate << std::endl;
+
 
     return 0;
 }
