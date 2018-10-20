@@ -1,7 +1,6 @@
 #pragma once
 #include <string>
 #include <vector>
-#include <charconv>
 
 struct Iris
 {
@@ -60,4 +59,7 @@ struct Iris
 
     // 4 features
     std::vector<double> features;
+
+    // numbers of types of label
+    static const int num_label = 4;
 };
