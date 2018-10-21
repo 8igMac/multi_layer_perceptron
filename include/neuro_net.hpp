@@ -125,7 +125,7 @@ class NeuroNet
     // stop criterion: number of times
     bool stop_criterion(int n)
     {
-        return n>10;
+        return n>1000;
     }
 
     // classify input data, return label index
